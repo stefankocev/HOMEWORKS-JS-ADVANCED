@@ -1,0 +1,57 @@
+let btn = document.querySelector(`button`);
+let body = document.querySelector(`body`);
+
+let table = data =>{
+    let table = document.createElement(`table`)
+    table.setAttribute(`border`, `1`);
+    body.appendChild(table);
+    let thead = document.createElement(`thead`)
+    thead.innerHTML = `<td>Height</td>
+    <td>Weight</td>
+    <td>Eye Color</td>
+    <td>Hair Color</td>`
+    let tbody = document.createElement(`tbody`)
+    tbody.innerHTML = `<td>${data.height}</td>
+    <td>${data.mass}</td>
+    <td>${data.eye_color}</td>
+    <td>${data.hair_color}</td>`
+    table.appendChild(thead);
+    table.appendChild(tbody);
+}
+function bonusTask(species){
+    let ul = document.createElement(`ul`);
+    ul.innerHTML +=`
+    <li>Species:${species.name}</li>
+<li>Classification:${species.classification}</li>
+<li>Designation:${species.designation}</li>
+<li>Skin Colors:${species.skin_colors}</li>
+<li>Hair Colors:${species.hair_colors}</li>
+<li>Eye Colors:${species.eye_colors}</li>
+<li>Average Lifespan:${species.average_lifespan}</li>
+<li>Language:${species.language}</li>`;
+body.appendChild(ul);
+} 
+btn.addEventListener(`click`, function(){
+    
+        $.ajax({
+            url: `https://swapi.co/api/people/1/`,
+            success: function(data){
+                let h2 = document.createElement(`h2`);
+                h2.innerHTML += `${data.name}`;
+                body.appendChild(h2);
+                table(data)
+            },
+            error: function(error){
+                console.log(error);
+            }
+        },
+        $.ajax({
+            url:`https://swapi.co/api/species/1/`,
+            success: function(data){
+                bonusTask(data)
+            },
+            error: function(error){
+                console.log(error)
+            }
+        }))
+})
